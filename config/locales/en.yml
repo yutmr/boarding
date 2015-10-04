@@ -21,3 +21,14 @@
 
 en:
   hello: "Hello world"
+  first_name: "First Name:"
+  first_name_placeholder: "First Name"
+  last_name: "Last Name:"
+  last_name_placeholder: "Last Name"
+  email_address: "Email Address:"
+  email_address_placeholder: "Email Address"
+  get_beta_access: "Get Beta Access"
+  email_address_is_already_registered: "Email address is already registered"
+  check_your_email_inbox_for_an_invite: "Successfully added you as tester. Check your email inbox for an invite"
+  you_will_be_notified_once_the_next_build_is_available: "Successfully added you as tester. You'll be notified once the next build is available"
+  something_went_wrong: "Something went wrong, please contact the application owner"

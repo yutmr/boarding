@@ -65,20 +65,20 @@ class InviteController < ApplicationController
       end
 
       if testing_is_live?
-        @message = "Successfully added you as tester. Check your email inbox for an invite"
+        @message = t('check_your_email_inbox_for_an_invite')
       else
-        @message = "Successfully added you as tester. You'll be notified once the next build is available"
+        @message = t('you_will_be_notified_once_the_next_build_is_available')
       end
       @type = "success"
     rescue => ex
       if ex.inspect.to_s.include?"EmailExists"
-        @message = "Email address is already registered"
+        @message = t('email_address_is_already_registered')
         @type = "danger"
       else
         Rails.logger.fatal ex.inspect
         Rails.logger.fatal ex.backtrace.join("\n")
 
-        @message = "Something went wrong, please contact the application owner"
+        @message = t('something_went_wrong')
         @type = "danger"
       end
     end
