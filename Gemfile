@@ -1,5 +1,6 @@
 source 'https://rubygems.org'
 
+ruby '2.2.3'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.2.1'
@@ -15,10 +16,16 @@ gem 'coffee-rails', '~> 4.1.0'
 gem 'jquery-rails'
 
 # Added by Felix
-gem 'spaceship', '>= 0.9.0'
+gem 'spaceship', '>= 0.15.1'
 
 gem 'bootstrap-sass', '~> 3.3.5'
 
+gem 'http_accept_language', '~> 2.0.5'
+
+group :production do
+  gem 'puma'
+  gem 'rails_12factor'
+end
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

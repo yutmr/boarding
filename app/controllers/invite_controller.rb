@@ -20,9 +20,18 @@ class InviteController < ApplicationController
     first_name = params[:first_name]
     last_name = params[:last_name]
 
+    if ENV["RESTRICTED_DOMAIN"]
+      if email.split("@").last != ENV["RESTRICTED_DOMAIN"]
+        @message = "Sorry! Early access is currently restricted to people within the #{ENV["RESTRICTED_DOMAIN"]} domain."
+        @type = "warning"
+        render :index
+        return
+      end
+    end
+
     if ENV["ITC_TOKEN"]
       if ENV["ITC_TOKEN"] != params[:token]
-        @message = "Invalid password given, please contact the application owner"
+        @message = t(:message_invalid_password)
         @type = "danger"
         render :index
         return
@@ -35,7 +44,7 @@ class InviteController < ApplicationController
     end
 
     if ENV["ITC_IS_DEMO"]
-      @message = "This is a demo page. Here would be the success message with information about the TestFlight email"
+      @message = t(:message_demo_page)
       @type = "success"
       render :index
       return
@@ -52,8 +61,8 @@ class InviteController < ApplicationController
       # tester ||= Spaceship::Tunes::Tester::External.find(config[:email])
       # Helper.log.info "Existing tester #{tester.email}".green if tester
 
-      tester ||= Spaceship::Tunes::Tester::External.create!(email: email, 
-                                                            first_name: first_name, 
+      tester ||= Spaceship::Tunes::Tester::External.create!(email: email,
+                                                            first_name: first_name,
                                                             last_name: last_name)
 
       logger.info "Successfully created tester #{tester.email}"
@@ -65,20 +74,20 @@ class InviteController < ApplicationController
       end
 
       if testing_is_live?
-        @message = t('check_your_email_inbox_for_an_invite')
+        @message = t(:message_success_live)
       else
-        @message = t('you_will_be_notified_once_the_next_build_is_available')
+        @message = t(:message_success_pending)
       end
       @type = "success"
     rescue => ex
       if ex.inspect.to_s.include?"EmailExists"
-        @message = t('email_address_is_already_registered')
+        @message = t(:message_email_exists)
         @type = "danger"
       else
         Rails.logger.fatal ex.inspect
         Rails.logger.fatal ex.backtrace.join("\n")
 
-        @message = t('something_went_wrong')
+        @message = t(:message_error)
         @type = "danger"
       end
     end
@@ -97,7 +106,7 @@ class InviteController < ApplicationController
 
     def apple_id
       Rails.logger.error "No app to add this tester to provided, use the `ITC_APP_ID` environment variable" unless ENV["ITC_APP_ID"]
-      
+
       Rails.cache.fetch('AppID', expires_in: 10.minutes) do
         if ENV["ITC_APP_ID"].include?"." # app identifier
           login
@@ -131,6 +140,7 @@ class InviteController < ApplicationController
     def login
       return if @spaceship
       @spaceship = Spaceship::Tunes.login(user, password)
+      @spaceship.select_team
     end
 
     def set_app_details

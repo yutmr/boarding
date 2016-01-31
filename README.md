@@ -1,23 +1,23 @@
 <h3 align="center">
-  <a href="https://github.com/KrauseFx/fastlane">
+  <a href="https://github.com/fastlane/fastlane">
     <img src="app/assets/images/fastlane.png" width="100" />
     <br />
     fastlane
   </a>
 </h3>
 <p align="center">
-  <a href="https://github.com/KrauseFx/deliver">deliver</a> &bull;
-  <a href="https://github.com/KrauseFx/snapshot">snapshot</a> &bull;
-  <a href="https://github.com/KrauseFx/frameit">frameit</a> &bull;
-  <a href="https://github.com/KrauseFx/PEM">PEM</a> &bull;
-  <a href="https://github.com/KrauseFx/sigh">sigh</a> &bull;
-  <a href="https://github.com/KrauseFx/produce">produce</a> &bull;
-  <a href="https://github.com/KrauseFx/cert">cert</a> &bull;
-  <a href="https://github.com/KrauseFx/codes">codes</a> &bull;
+  <a href="https://github.com/fastlane/deliver">deliver</a> &bull;
+  <a href="https://github.com/fastlane/snapshot">snapshot</a> &bull;
+  <a href="https://github.com/fastlane/frameit">frameit</a> &bull;
+  <a href="https://github.com/fastlane/pem">pem</a> &bull;
+  <a href="https://github.com/fastlane/sigh">sigh</a> &bull;
+  <a href="https://github.com/fastlane/produce">produce</a> &bull;
+  <a href="https://github.com/fastlane/cert">cert</a> &bull;
   <a href="https://github.com/fastlane/spaceship">spaceship</a> &bull;
   <a href="https://github.com/fastlane/pilot">pilot</a> &bull;
   <b>boarding</b> &bull;
-  <a href="https://github.com/fastlane/gym">gym</a>
+  <a href="https://github.com/fastlane/gym">gym</a> &bull;
+  <a href="https://github.com/fastlane/scan">scan</a>
 </p>
 -------
 
@@ -26,11 +26,11 @@
 </p>
 -------
 
-[![Twitter: @KauseFx](https://img.shields.io/badge/contact-@KrauseFx-blue.svg?style=flat)](https://twitter.com/KrauseFx)
-[![License](http://img.shields.io/badge/license-MIT-green.svg?style=flat)](https://github.com/fastlane/boarding/blob/master/LICENSE)
+[![Twitter: @FastlaneTools](https://img.shields.io/badge/contact-@FastlaneTools-blue.svg?style=flat)](https://twitter.com/FastlaneTools)
+[![License](https://img.shields.io/badge/license-MIT-green.svg?style=flat)](https://github.com/fastlane/boarding/blob/master/LICENSE)
 
 
-Get in contact with the developer on Twitter: [@KrauseFx](https://twitter.com/KrauseFx/)
+Get in contact with the developers on Twitter: [@FastlaneTools](https://twitter.com/FastlaneTools/)
 
 
 -------
@@ -68,15 +68,15 @@ Thanks to [spaceship.airforce](https://spaceship.airforce) (oh well, I really ta
 
 # Getting Started
 
-Assuming you already have a [Heroku](https://heroku.com) account follow those steps:
+Assuming you already have a [Heroku](https://www.heroku.com/) account follow those steps:
 
-- [![Deploy](https://www.herokucdn.com/deploy/button.png)](https://heroku.com/deploy?template=https://github.com/fastlane/boarding)
+- [![Deploy](https://www.herokucdn.com/deploy/button.png)](https://www.heroku.com/deploy?template=https://github.com/fastlane/boarding)
 - Enter your iTunes Connect credentials and the bundle identifier of your app. This will all be stored on your own Heroku instance as environment variables
 - Click on `View` once the setup is complete and start sharing the URL
 
 `boarding` does all kinds of magic for you, like fetching the app name and app icon.
 
-Heroku is free to use for the standard machine. If you need a Heroku account, ask your back-end team if you already have a company account. 
+Heroku is free to use for the standard machine. If you need a Heroku account, ask your back-end team if you already have a company account.
 
 ---
 
@@ -86,7 +86,7 @@ Heroku is free to use for the standard machine. If you need a Heroku account, as
 
 ## Security
 
-To secure your webpage, you only have to set the `ITC_TOKEN` environment variable to any password. 
+To secure your webpage, you only have to set the `ITC_TOKEN` environment variable to any password.
 
 - You can send your users the link and tell them the password
 - You can send them the direct link including the token like this: https://url.com/?token=[password]
@@ -102,6 +102,8 @@ To secure your webpage, you only have to set the `ITC_TOKEN` environment variabl
 **Optional:**
 - `ITC_TOKEN` Set a password to protect your website from random people signing up
 - `ITC_CLOSED_TEXT` Set this text to temporary disable enrollment of new beta testers
+- `RESTRICTED_DOMAIN` Set this domain (in the format `domain.com`) to restrict users with emails in another domain from signing up
+- `FASTLANE_ITC_TEAM_NAME` If you're in multiple teams, enter the name of your iTC team here. Make sure it matches.
 
 ## Custom Domain
 
@@ -109,7 +111,7 @@ With Heroku you can easily use your own domain, follow [this guide](https://devc
 
 # How does this work?
 
-`boarding` is part of [fastlane](https://fastlane.tools), which helps you automate everything you usually do manually as an iOS developer. 
+`boarding` is part of [fastlane](https://fastlane.tools), which helps you automate everything you usually do manually as an iOS developer.
 
 Using [spaceship.airforce](https://spaceship.airforce) it is possible to manage testers, builds, metadata, certificates and so much more.
 
@@ -127,7 +129,7 @@ More information about this automation process on [my blog](https://krausefx.com
 If you want to change the design, layout or even add new features:
 
 - Install the [Heroku toolbelt](https://toolbelt.heroku.com/) and `heroku login`
-- Clone your application using `heroku clone --app [heroku_app_name]`
+- Clone your application using `heroku git:clone --app [heroku_app_name]`
 - `cd [heroku_app_name]`
 - Modify the content, in particular the files that are described above.
 - Test it locally by running `ITC_USER="email" ITC_... rails s` and opening [http://127.0.0.1:3000](http://127.0.0.1:3000)
@@ -143,15 +145,15 @@ From time to time there will be updates to `boarding`. There are 2 ways to updat
 ### Recommended: Using the terminal
 
 - Install the [Heroku toolbelt](https://toolbelt.heroku.com/) and `heroku login`
-- Clone your application using `heroku clone --app [heroku_app_name]`
+- Clone your application using `heroku git:clone --app [heroku_app_name]`
 - `cd [heroku_app_name]`
 - `git pull https://github.com/fastlane/boarding`
 - `git push`
 
 ### Using Heroku website
 
-- Delete your application on [heroku.com](https://heroku.com)
-- [Create a new boarding application](https://heroku.com/deploy?template=https://github.com/fastlane/boarding)
+- Delete your application on [heroku.com](https://www.heroku.com/)
+- [Create a new boarding application](https://www.heroku.com/deploy?template=https://github.com/fastlane/boarding)
 - Enter your user credentials again
 
 ##### [Like this tool? Be the first to know about updates and new fastlane tools](https://tinyletter.com/krausefx)
@@ -159,6 +161,9 @@ From time to time there will be updates to `boarding`. There are 2 ways to updat
 ### Special thanks
 
 Special thanks to [@lee_moonan](https://twitter.com/lee_moonan) for designing the awesome logo.
+
+# Code of Conduct
+Help us keep `boarding` open and inclusive. Please read and follow our [Code of Conduct](https://github.com/fastlane/code-of-conduct).
 
 # License
 This project is licensed under the terms of the MIT license. See the LICENSE file.
