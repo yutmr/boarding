@@ -2,12 +2,24 @@ class InviteController < ApplicationController
   before_action :set_app_details
   before_action :check_disabled_text
 
+  skip_before_filter :verify_authenticity_token
+
   def index
     if user and password
       # default
     else
       render 'environment_error'
     end
+  rescue => ex
+    update_spaceship_message
+    raise ex
+  end
+
+  def update_spaceship_message
+    Rails.logger.fatal("--------------------------------------------------------------------------------")
+    Rails.logger.fatal("Error rendering the page, make sure to update to the latest version of spaceship")
+    Rails.logger.fatal("More information about how to do so can be found on the project README")
+    Rails.logger.fatal("--------------------------------------------------------------------------------")
   end
 
   def submit
@@ -21,8 +33,13 @@ class InviteController < ApplicationController
     last_name = params[:last_name]
 
     if ENV["RESTRICTED_DOMAIN"]
-      if email.split("@").last != ENV["RESTRICTED_DOMAIN"]
-        @message = "Sorry! Early access is currently restricted to people within the #{ENV["RESTRICTED_DOMAIN"]} domain."
+      domains = ENV["RESTRICTED_DOMAIN"].split(",")
+      unless domains.include?(email.split("@").last)
+        if domains.count == 1
+          @message = "Sorry! Early access is currently restricted to people within the #{domains.first} domain."
+        else
+          @message = "Sorry! Early access is currently restricted to people within the following domains: (#{domains.join(", ")})"
+        end
         @type = "warning"
         render :index
         return
@@ -55,44 +72,48 @@ class InviteController < ApplicationController
     begin
       login
 
-      tester = Spaceship::Tunes::Tester::Internal.find(email)
-      tester ||= Spaceship::Tunes::Tester::External.find(email)
-      # tester = Spaceship::Tunes::Tester::Internal.find(config[:email])
-      # tester ||= Spaceship::Tunes::Tester::External.find(config[:email])
-      # Helper.log.info "Existing tester #{tester.email}".green if tester
+      tester = Spaceship::Tunes::Tester::External.find_by_app(apple_id, email)
 
-      tester ||= Spaceship::Tunes::Tester::External.create!(email: email,
-                                                            first_name: first_name,
-                                                            last_name: last_name)
+      logger.info "Found tester #{tester}"
 
-      logger.info "Successfully created tester #{tester.email}"
-
-      if apple_id.length > 0
-        logger.info "Addding tester to application"
-        tester.add_to_app!(apple_id)
-        logger.info "Done"
-      end
-
-      if testing_is_live?
-        @message = t(:message_success_live)
-      else
-        @message = t(:message_success_pending)
-      end
-      @type = "success"
-    rescue => ex
-      if ex.inspect.to_s.include?"EmailExists"
+      if tester
         @message = t(:message_email_exists)
         @type = "danger"
       else
-        Rails.logger.fatal ex.inspect
-        Rails.logger.fatal ex.backtrace.join("\n")
+        tester = Spaceship::Tunes::Tester::External.new({
+          'emailAddress' => {'value' => email},
+          'firstName' => {'value' => first_name},
+          'lastName' => {'value' => last_name}
+        })
 
-        @message = t(:message_error)
-        @type = "danger"
+        logger.info "Successfully created tester #{tester.email}"
+
+        if apple_id.length > 0
+          logger.info "Addding tester to application"
+          tester.add_to_app!(apple_id)
+          logger.info "Done"
+        end
+
+        if testing_is_live?
+          @message = t(:message_success_live)
+        else
+          @message = t(:message_success_pending)
+        end
+        @type = "success"
       end
+      
+    rescue => ex
+      Rails.logger.fatal ex.inspect
+      Rails.logger.fatal ex.backtrace.join("\n")
+
+      @message = t(:message_error)
+      @type = "danger"
     end
 
     render :index
+  rescue => ex
+    update_spaceship_message
+    raise ex
   end
 
   private

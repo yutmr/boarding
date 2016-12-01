@@ -1,28 +1,28 @@
 <h3 align="center">
   <a href="https://github.com/fastlane/fastlane">
-    <img src="app/assets/images/fastlane.png" width="100" />
+    <img src="https://raw.githubusercontent.com/fastlane/boarding/master/app/assets/images/fastlane.png" width="100" />
     <br />
     fastlane
   </a>
 </h3>
 <p align="center">
-  <a href="https://github.com/fastlane/deliver">deliver</a> &bull;
-  <a href="https://github.com/fastlane/snapshot">snapshot</a> &bull;
-  <a href="https://github.com/fastlane/frameit">frameit</a> &bull;
-  <a href="https://github.com/fastlane/pem">pem</a> &bull;
-  <a href="https://github.com/fastlane/sigh">sigh</a> &bull;
-  <a href="https://github.com/fastlane/produce">produce</a> &bull;
-  <a href="https://github.com/fastlane/cert">cert</a> &bull;
+  <a href="https://github.com/fastlane/fastlane/tree/master/deliver">deliver</a> &bull;
+  <a href="https://github.com/fastlane/fastlane/tree/master/snapshot">snapshot</a> &bull;
+  <a href="https://github.com/fastlane/fastlane/tree/master/frameit">frameit</a> &bull;
+  <a href="https://github.com/fastlane/fastlane/tree/master/pem">pem</a> &bull;
+  <a href="https://github.com/fastlane/fastlane/tree/master/sigh">sigh</a> &bull;
+  <a href="https://github.com/fastlane/fastlane/tree/master/produce">produce</a> &bull;
+  <a href="https://github.com/fastlane/fastlane/tree/master/cert">cert</a> &bull;
   <a href="https://github.com/fastlane/spaceship">spaceship</a> &bull;
-  <a href="https://github.com/fastlane/pilot">pilot</a> &bull;
+  <a href="https://github.com/fastlane/fastlane/tree/master/pilot">pilot</a> &bull;
   <b>boarding</b> &bull;
-  <a href="https://github.com/fastlane/gym">gym</a> &bull;
-  <a href="https://github.com/fastlane/scan">scan</a>
+  <a href="https://github.com/fastlane/fastlane/tree/master/gym">gym</a> &bull;
+  <a href="https://github.com/fastlane/fastlane/tree/master/scan">scan</a>
 </p>
 -------
 
 <p align="center">
-  <img src="assets/BoardingHuge.png" width="650">
+  <img src="https://raw.githubusercontent.com/fastlane/boarding/master/assets/BoardingHuge.png" width="650">
 </p>
 -------
 
@@ -56,7 +56,7 @@ Because that's what you do right now as an app developer when you want to add a 
 
 Why don't you have a simple web site you can share with potential testers (e.g. email newsletter, Facebook, Twitter) on which people interested in trying out your new app can just `board` on their own?
 
-![BoardingScreenshot](assets/BoardingScreenshot.png)
+![BoardingScreenshot](https://raw.githubusercontent.com/fastlane/boarding/master/assets/BoardingScreenshot.png)
 
 Thanks to [spaceship.airforce](https://spaceship.airforce) (oh well, I really talk a lot about flying :rocket:) it is now possible to automate the boarding process for your TestFlight beta testers.
 
@@ -80,9 +80,11 @@ Heroku is free to use for the standard machine. If you need a Heroku account, as
 
 ---
 
-![SetupGif](assets/BoardingSetup.gif)
+![SetupGif](https://raw.githubusercontent.com/fastlane/boarding/master/assets/BoardingSetup.gif)
 
 ---
+
+If your account is protected using 2-factor author, follow the [2 step verification guide](https://github.com/fastlane/fastlane/blob/master/spaceship/README.md#2-step-verification).
 
 ## Security
 
@@ -102,7 +104,7 @@ To secure your webpage, you only have to set the `ITC_TOKEN` environment variabl
 **Optional:**
 - `ITC_TOKEN` Set a password to protect your website from random people signing up
 - `ITC_CLOSED_TEXT` Set this text to temporary disable enrollment of new beta testers
-- `RESTRICTED_DOMAIN` Set this domain (in the format `domain.com`) to restrict users with emails in another domain from signing up
+- `RESTRICTED_DOMAIN` Set this domain (in the format `domain.com`) to restrict users with emails in another domain from signing up. This list supports multiple domains by setting it to a comma delimited list (`domain1.com,domain2.com`)
 - `FASTLANE_ITC_TEAM_NAME` If you're in multiple teams, enter the name of your iTC team here. Make sure it matches.
 
 ## Custom Domain
@@ -120,17 +122,18 @@ This repository is a simple Rails application with most code in these files:
 - [invite_controller.rb](https://github.com/fastlane/boarding/blob/master/app/controllers/invite_controller.rb)
 - [invite/index.html.erb](https://github.com/fastlane/boarding/blob/master/app/views/invite/index.html.erb)
 
-![BoardingOverview](assets/BoardingOverview.png)
+![BoardingOverview](https://raw.githubusercontent.com/fastlane/boarding/master/assets/BoardingOverview.png)
 
-More information about this automation process on [my blog](https://krausefx.com).
+More information about this automation process can be found [here](https://krausefx.com/blog/letting-computers-do-the-hard-work).
 
 # Customize
 
 If you want to change the design, layout or even add new features:
 
-- Install the [Heroku toolbelt](https://toolbelt.heroku.com/) and `heroku login`
+- Install the [Heroku toolbelt](https://toolbelt.heroku.com/) and `heroku login` (it will be an empty repo)
 - Clone your application using `heroku git:clone --app [heroku_app_name]`
 - `cd [heroku_app_name]`
+- `git pull https://github.com/fastlane/boarding`
 - Modify the content, in particular the files that are described above.
 - Test it locally by running `ITC_USER="email" ITC_... rails s` and opening [http://127.0.0.1:3000](http://127.0.0.1:3000)
 - Commit the changes
@@ -145,7 +148,7 @@ From time to time there will be updates to `boarding`. There are 2 ways to updat
 ### Recommended: Using the terminal
 
 - Install the [Heroku toolbelt](https://toolbelt.heroku.com/) and `heroku login`
-- Clone your application using `heroku git:clone --app [heroku_app_name]`
+- Clone your application using `heroku git:clone --app [heroku_app_name]` (it will be an empty repo)
 - `cd [heroku_app_name]`
 - `git pull https://github.com/fastlane/boarding`
 - `git push`
